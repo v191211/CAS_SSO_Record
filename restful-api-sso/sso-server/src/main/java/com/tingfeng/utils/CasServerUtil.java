@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -125,6 +126,23 @@ public class CasServerUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 删除TGT
+     */
+    public static void delTGT(String tgt) {
+        try{
+            System.out.println(String.format("删除TGT：%s",tgt));
+
+            CloseableHttpClient client = HttpClients.createDefault();
+
+            HttpDelete httpDelete = new HttpDelete(CasConfig.GET_TOKEN_URL.concat("/").concat(tgt));
+            client.execute(httpDelete);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
