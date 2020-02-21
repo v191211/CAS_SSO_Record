@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>App1 登录界面</title>
+</head>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="assets/js/common.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            method: "GET",
+            url: "http://sso.server.com:9000/sso/user/logout",
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain:true,
+            dataType: "jsonp",
+            jsonp: "callback",
+            // cache: false,
+            success: function (result) {
+                console.info("请求成功");
+                console.info(result);
+            },
+            error: function (data) {
+                console.info("请求失败");
+                console.info(data);
+            }
+        });
+    });
+</script>
+<body>
+
+<h2>App1 用户注销</h2>
+
+</body>
+</html>
