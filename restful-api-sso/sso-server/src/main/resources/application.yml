@@ -24,7 +24,7 @@ spring:
     database: 0
     host: 127.0.0.1
     port: 6379
-    password:
+    password: Dao/bang!@#$2020~
     pool:
         # 最大连接数
       max-active: 8
