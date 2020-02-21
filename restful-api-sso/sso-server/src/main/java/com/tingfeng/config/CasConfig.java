@@ -5,7 +5,7 @@ public class CasConfig {
     /**
      * CAS登录地址的token
      */
-    public static String GET_TOKEN_URL = "https://cas.server.com:8443/cas/v1/tickets";
+    public static String GET_TOKEN_URL = "http://cas.server.com:8443/cas/v1/tickets";
 
     /**
      * 设置Cookie的有效时长（1小时）
