@@ -126,10 +126,12 @@ public class UserController {
 
     /**
      * 因为TGT在SSO服务端维护，并不在CAS-Server，所以只需要想办法把redis中匹配的tgt信息删除即可。
+     * 需要删除cookie
+     * 需要删除CAS服务中的TGT
      */
     @GetMapping("/logout")
     @ResponseBody
-    public String logout(HttpServletRequest request) {
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
         String callback = request.getParameter("callback");
         Cookie[] cookies = request.getCookies();
         String username = null;
@@ -147,6 +149,11 @@ public class UserController {
             }
 
             if (username != null) {
+                // 删除cookie
+                Cookie cookie = new Cookie(CasConfig.COOKIE_NAME, null);
+                cookie.setMaxAge(0);
+                cookie.setPath("/");
+                response.addCookie(cookie);
                 // 获取Redis值
                 String value = tgtServer.getTGT(username);
                 System.out.println("Redis value：" + value);
@@ -157,13 +164,17 @@ public class UserController {
                     tgtServer.delTGT(username);
                 }
             }
+            if (tgt != null){
+                // 删除CAS服务中的TGT
+                CasServerUtil.delTGT(tgt);
+            }
         }
 
         System.out.println("callback：" + callback);
         String tmp = callback + "({'code':'0','msg':'登出成功'})";
         System.out.println("result：" + tmp);
 
-        return null;
+        return tmp;
     }
 
 }
